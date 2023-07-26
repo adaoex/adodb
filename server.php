@@ -1,7 +1,7 @@
 <?php
 
 /** 
- * @version V4.93 10 Oct 2006 (c) 2000-2006 John Lim (jlim#natsoft.com.my). All rights reserved.
+ * @version V4.93 10 Oct 2006 (c) 2000-2007 John Lim (jlim#natsoft.com.my). All rights reserved.
  * Released under both BSD license and Lesser GPL library license. 
   Whenever there is any discrepancy between the two licenses, 
   the BSD license will take precedence. 
@@ -41,7 +41,7 @@ $database = 'test';
 // $sep must match csv2rs() in adodb.inc.php
 $sep = ' :::: ';
 
-include_once('./adodb.inc.php');
+include('./adodb.inc.php');
 include_once(ADODB_DIR.'/adodb-csvlib.inc.php');
 
 function err($s)

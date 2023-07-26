@@ -1,6 +1,6 @@
 <?php
 /* 
-V4.93 10 Oct 2006  (c) 2000-2006 John Lim (jlim#natsoft.com.my). All rights reserved.
+V4.94 23 Jan 2007  (c) 2000-2007 John Lim (jlim#natsoft.com.my). All rights reserved.
   Released under both BSD license and Lesser GPL library license. 
   Whenever there is any discrepancy between the two licenses, 
   the BSD license will take precedence. See License.txt. 
@@ -13,7 +13,7 @@ V4.93 10 Oct 2006  (c) 2000-2006 John Lim (jlim#natsoft.com.my). All rights rese
 if (!defined('_ADODB_ODBC_LAYER')) {
 	if (!defined('ADODB_DIR')) die();
 	
-	require_once(ADODB_DIR."/drivers/adodb-odbc.inc.php");
+	include(ADODB_DIR."/drivers/adodb-odbc.inc.php");
 }
  if (!defined('_ADODB_ACCESS')) {
  	define('_ADODB_ACCESS',1);
@@ -27,6 +27,7 @@ class  ADODB_access extends ADODB_odbc {
 	var $sysDate = "FORMAT(NOW,'yyyy-mm-dd')";
 	var $sysTimeStamp = 'NOW';
 	var $hasTransactions = false;
+	var $upperCase = 'ucase';
 	
 	function ADODB_access()
 	{

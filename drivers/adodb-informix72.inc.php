@@ -1,6 +1,6 @@
 <?php
 /*
-V4.93 10 Oct 2006  (c) 2000-2006 John Lim. All rights reserved.
+V4.94 23 Jan 2007  (c) 2000-2007 John Lim. All rights reserved.
   Released under both BSD license and Lesser GPL library license.
   Whenever there is any discrepancy between the two licenses,
   the BSD license will take precedence.
@@ -168,7 +168,7 @@ class ADODB_informix72 extends ADOConnection {
 				$fld->name = $rs->fields[0];
 /*  //!eos.
 						$rs->fields[1] is not the correct adodb type
-						$rs->fields[2] is not correct max_length, because can include_once not-null bit
+						$rs->fields[2] is not correct max_length, because can include not-null bit
 
 				$fld->type = $rs->fields[1];
 				$fld->primary_key=$rspkey->fields && array_search($rs->fields[4],$rspkey->fields); //Added to set primary key flag

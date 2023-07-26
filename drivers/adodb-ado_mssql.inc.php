@@ -1,6 +1,6 @@
 <?php
 /* 
-V4.93 10 Oct 2006  (c) 2000-2006 John Lim (jlim#natsoft.com.my). All rights reserved.
+V4.94 23 Jan 2007  (c) 2000-2007 John Lim (jlim#natsoft.com.my). All rights reserved.
   Released under both BSD license and Lesser GPL library license. 
   Whenever there is any discrepancy between the two licenses, 
   the BSD license will take precedence. 
@@ -19,8 +19,8 @@ Set tabs to 4 for best viewing.
 if (!defined('ADODB_DIR')) die();
 
 if (!defined('_ADODB_ADO_LAYER')) {
-	if (PHP_VERSION >= 5) require_once(ADODB_DIR."/drivers/adodb-ado5.inc.php");
-	else require_once(ADODB_DIR."/drivers/adodb-ado.inc.php");
+	if (PHP_VERSION >= 5) include(ADODB_DIR."/drivers/adodb-ado5.inc.php");
+	else include(ADODB_DIR."/drivers/adodb-ado.inc.php");
 }
 
 
@@ -46,7 +46,7 @@ class  ADODB_ado_mssql extends ADODB_ado {
 	
 	function _insertid()
 	{
-	        return $this->GetOne('select @@identity');
+	        return $this->GetOne('select SCOPE_IDENTITY()');
 	}
 	
 	function _affectedrows()
@@ -63,6 +63,12 @@ class  ADODB_ado_mssql extends ADODB_ado {
 		}
 		if (!stristr($transaction_mode,'isolation')) $transaction_mode = 'ISOLATION LEVEL '.$transaction_mode;
 		$this->Execute("SET TRANSACTION ".$transaction_mode);
+	}
+	
+	function qstr($s,$magic_quotes=false)
+	{
+		$s = ADOConnection::qstr($s, $magic_quotes);
+		return str_replace("\0", "\\\\000", $s);
 	}
 	
 	function MetaColumns($table)

@@ -107,11 +107,11 @@ if( !defined( 'XMLS_DEFAULT_UPGRADE_METHOD' ) ) {
 }
 
 /**
-* include_once the main ADODB library
+* Include the main ADODB library
 */
 if( !defined( '_ADODB_LAYER' ) ) {
-	require_once( 'adodb.inc.php' );
-	require_once( 'adodb-datadict.inc.php' );
+	require( 'adodb.inc.php' );
+	require( 'adodb-datadict.inc.php' );
 }
 
 /**
@@ -2088,10 +2088,10 @@ class adoSchema {
 	* Extracts an XML schema from an existing database.
 	*
 	* Call this method to create an XML schema string from an existing database.
-	* If the data parameter is set to TRUE, AXMLS will include_once the data from the database
+	* If the data parameter is set to TRUE, AXMLS will include the data from the database
 	* in the schema. 
 	*
-	* @param boolean $data include_once data in schema dump
+	* @param boolean $data Include data in schema dump
 	* @indent string indentation to use
 	* @prefix string extract only tables with given prefix
 	* @stripprefix strip prefix string when storing in XML schema
