@@ -7,7 +7,7 @@ V4.72 24 Jan 2006  (c) 2000-2007 John Lim (jlim#natsoft.com.my). All rights rese
 /*
 Setup:
 
- 	$db = &NewADOConnection('text');
+ 	$db = NewADOConnection('text');
  	$db->Connect($array,[$types],[$colnames]);
 	
 	Parameter $array is the 2 dimensional array of data. The first row can contain the
@@ -335,9 +335,9 @@ class ADODB_text extends ADOConnection {
 		
 		// rearrange original array
 		$arr2 = array();
-		if ($this->_skiprow1) $arr2[] = &$projarray[0];
+		if ($this->_skiprow1) $arr2[] = $projarray[0];
 		foreach($sorta as $v) {
-			$arr2[] = &$projarray[$v[1]];
+			$arr2[] = $projarray[$v[1]];
 		}
 		
 		$this->_rezarray = $arr2;

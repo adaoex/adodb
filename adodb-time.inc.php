@@ -688,7 +688,7 @@ function adodb_get_gmt_diff_ts($ts)
 		$m = $arr['mon'];
 		$d = $arr['mday'];
 		return adodb_get_gmt_diff($y,$m,$d);	
-} else {
+	} else {
 		return adodb_get_gmt_diff(false,false,false);
 	}
 	
@@ -714,9 +714,9 @@ global $ADODB_DATETIME_CLASS;
 		}
 		return -$tzo->getOffset($dt);
 	} else {
-	if (isset($TZ)) return $TZ;
-	$y = date('Y');
-	$TZ = mktime(0,0,0,12,2,$y,0) - gmmktime(0,0,0,12,2,$y,0);
+		if (isset($TZ)) return $TZ;
+		$y = date('Y');
+		$TZ = mktime(0,0,0,12,2,$y,0) - gmmktime(0,0,0,12,2,$y,0);
 	}
 	
 	return $TZ;
@@ -1089,7 +1089,7 @@ global $ADODB_DATETIME_CLASS;
 			
 			$dates .= ' '.adodb_tz_offset($gmt,$isphp5);
 			break;
-				
+			
 		case 'Y': $dates .= $year; break;
 		case 'y': $dates .= substr($year,strlen($year)-2,2); break;
 		// MONTH

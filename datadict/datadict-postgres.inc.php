@@ -1,7 +1,7 @@
 <?php
 
 /**
-  V4.94 23 Jan 2007  (c) 2000-2007 John Lim (jlim#natsoft.com.my). All rights reserved.
+  V5.00 05 Feb 2007   (c) 2000-2007 John Lim (jlim#natsoft.com.my). All rights reserved.
   Released under both BSD license and Lesser GPL library license. 
   Whenever there is any discrepancy between the two licenses, 
   the BSD license will take precedence.
@@ -162,7 +162,8 @@ class ADODB2_postgres extends ADODB_DataDict {
 	 * @param array/ $tableoptions options for the new table see CreateTableSQL, default ''
 	 * @return array with SQL strings
 	 */
-	/*function AlterColumnSQL($tabname, $flds, $tableflds='',$tableoptions='')
+	 /*
+	function AlterColumnSQL($tabname, $flds, $tableflds='',$tableoptions='')
 	{
 		if (!$tableflds) {
 			if ($this->debug) ADOConnection::outp("AlterColumnSQL needs a complete table-definiton for PostgreSQL");
@@ -170,7 +171,6 @@ class ADODB2_postgres extends ADODB_DataDict {
 		}
 		return $this->_recreate_copy_table($tabname,False,$tableflds,$tableoptions);
 	}*/
-	
 	function AlterColumnSQL($tabname, $flds, $tableflds='',$tableoptions='')
 	{
 	   // Check if alter single column datatype available - works with 8.0+
@@ -346,20 +346,6 @@ class ADODB2_postgres extends ADODB_DataDict {
 			return False;
 		}
 		return "DROP SEQUENCE ".$seq;
-	}
-	
-	function RenameTableSQL($tabname,$newname)
-	{
-		if (!empty($this->schema)) {
-			$rename_from = $this->TableName($tabname);
-			$schema_save = $this->schema;
-			$this->schema = false;
-			$rename_to = $this->TableName($newname);
-			$this->schema = $schema_save;
-			return array (sprintf($this->renameTable, $rename_from, $rename_to));
-		}
-
-		return array (sprintf($this->renameTable, $this->TableName($tabname),$this->TableName($newname)));
 	}
 	
 	/*

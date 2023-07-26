@@ -1,6 +1,6 @@
 <?php
 /*
-V4.94 23 Jan 2007  (c) 2000-2007 John Lim (jlim#natsoft.com.my). All rights reserved.
+V5.00 05 Feb 2007   (c) 2000-2007 John Lim (jlim#natsoft.com.my). All rights reserved.
   Released under both BSD license and Lesser GPL library license. 
   Whenever there is any discrepancy between the two licenses, 
   the BSD license will take precedence.
@@ -143,7 +143,7 @@ class ADODB_mysqli extends ADOConnection {
 	function GetOne($sql,$inputarr=false)
 	{
 		$ret = false;
-		$rs = &$this->Execute($sql,$inputarr);
+		$rs = $this->Execute($sql,$inputarr);
 		if ($rs) {	
 			if (!$rs->EOF) $ret = reset($rs->fields);
 			$rs->Close();
@@ -197,7 +197,7 @@ class ADODB_mysqli extends ADOConnection {
 	{
 		if ($this->transCnt==0) $this->BeginTrans();
 		if ($where) $where = ' where '.$where;
-		$rs =& $this->Execute("select $flds from $tables $where for update");
+		$rs = $this->Execute("select $flds from $tables $where for update");
 		return !empty($rs); 
 	}
 	
@@ -250,6 +250,7 @@ class ADODB_mysqli extends ADOConnection {
 	// Reference on Last_Insert_ID on the recommended way to simulate sequences
  	var $_genIDSQL = "update %s set id=LAST_INSERT_ID(id+1);";
 	var $_genSeqSQL = "create table %s (id int not null)";
+	var $_genSeqCountSQL = "select count(*) from %s";
 	var $_genSeq2SQL = "insert into %s values (%s)";
 	var $_dropSeqSQL = "drop table %s";
 	
@@ -289,10 +290,10 @@ class ADODB_mysqli extends ADOConnection {
 		return $this->genID;
 	}
 	
-  	function &MetaDatabases()
+  	function MetaDatabases()
 	{
 		$query = "SHOW DATABASES";
-		$ret =& $this->Execute($query);
+		$ret = $this->Execute($query);
 		if ($ret && is_object($ret)){
 		   $arr = array();
 			while (!$ret->EOF){
@@ -306,7 +307,7 @@ class ADODB_mysqli extends ADOConnection {
 	}
 
 	  
-	function &MetaIndexes ($table, $primary = FALSE)
+	function MetaIndexes ($table, $primary = FALSE)
 	{
 		// save old fetch mode
 		global $ADODB_FETCH_MODE;
@@ -461,7 +462,7 @@ class ADODB_mysqli extends ADOConnection {
 //		return "from_unixtime(unix_timestamp($date)+$fraction)";
 	}
 	
-	function &MetaTables($ttype=false,$showSchema=false,$mask=false) 
+	function MetaTables($ttype=false,$showSchema=false,$mask=false) 
 	{	
 		$save = $this->metaTablesSQL;
 		if ($showSchema && is_string($showSchema)) {
@@ -472,7 +473,7 @@ class ADODB_mysqli extends ADOConnection {
 			$mask = $this->qstr($mask);
 			$this->metaTablesSQL .= " like $mask";
 		}
-		$ret =& ADOConnection::MetaTables($ttype,$showSchema);
+		$ret = ADOConnection::MetaTables($ttype,$showSchema);
 		
 		$this->metaTablesSQL = $save;
 		return $ret;
@@ -520,7 +521,7 @@ class ADODB_mysqli extends ADOConnection {
 	    return  $foreign_keys;
 	}
 	
- 	function &MetaColumns($table) 
+ 	function MetaColumns($table) 
 	{
 		$false = false;
 		if (!$this->metaColumnsSQL)
@@ -607,7 +608,7 @@ class ADODB_mysqli extends ADOConnection {
 	}
 	
 	// parameters use PostgreSQL convention, not MySQL
-	function &SelectLimit($sql,
+	function SelectLimit($sql,
 			      $nrows = -1,
 			      $offset = -1,
 			      $inputarr = false, 
@@ -618,9 +619,9 @@ class ADODB_mysqli extends ADOConnection {
 		if ($nrows < 0) $nrows = '18446744073709551615';
 		
 		if ($secs)
-			$rs =& $this->CacheExecute($secs, $sql . " LIMIT $offsetStr$nrows" , $inputarr , $arg3);
+			$rs = $this->CacheExecute($secs, $sql . " LIMIT $offsetStr$nrows" , $inputarr , $arg3);
 		else
-			$rs =& $this->Execute($sql . " LIMIT $offsetStr$nrows" , $inputarr , $arg3);
+			$rs = $this->Execute($sql . " LIMIT $offsetStr$nrows" , $inputarr , $arg3);
 			
 		return $rs;
 	}
@@ -814,7 +815,7 @@ class ADORecordSet_mysqli extends ADORecordSet{
 131072 = MYSQLI_BINCMP_FLAG
 */
 
-	function &FetchField($fieldOffset = -1) 
+	function FetchField($fieldOffset = -1) 
 	{	
 		$fieldnr = $fieldOffset;
 		if ($fieldOffset != -1) {
@@ -832,11 +833,11 @@ class ADORecordSet_mysqli extends ADORecordSet{
 		return $o;
 	}
 
-	function &GetRowAssoc($upper = true)
+	function GetRowAssoc($upper = true)
 	{
 		if ($this->fetchMode == MYSQLI_ASSOC && !$upper) 
 		  return $this->fields;
-		$row =& ADORecordSet::GetRowAssoc($upper);
+		$row = ADORecordSet::GetRowAssoc($upper);
 		return $row;
 	}
 	
@@ -1025,12 +1026,12 @@ class ADORecordSet_mysqli extends ADORecordSet{
 }
 
 class ADORecordSet_array_mysqli extends ADORecordSet_array {
+  
   function ADORecordSet_array_mysqli($id=-1,$mode=false) 
   {
     $this->ADORecordSet_array($id,$mode);
   }
   
-
 	function MetaType($t, $len = -1, $fieldobj = false)
 	{
 		if (is_object($t)) {
